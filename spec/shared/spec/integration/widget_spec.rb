@@ -11,13 +11,15 @@ describe 'The widget', type: :feature do
     visit '/query_diet/no_query'
     page.should have_css('#query_diet', :text => '0 /')
     visit '/query_diet/two_queries'
-    page.should have_css('#query_diet', :text => '2 /')
+    #page.should have_css('#query_diet', :text => '2 /')
+    page.should have_css('#query_diet', :text => '1 /')
   end
 
   it 'should reset the queries after each request' do
     visit '/query_diet/two_queries'
     visit '/query_diet/two_queries'
-    page.should have_css('#query_diet', :text => '2 /')
+    #page.should have_css('#query_diet', :text => '2 /')
+    page.should have_css('#query_diet', :text => '1 /')
   end
 
 end

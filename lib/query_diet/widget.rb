@@ -32,6 +32,10 @@ module QueryDiet
       end
 
       def html(options)
+        #
+        # since the query_diet_widget runs *inside* a view (generally "layout")
+        # it will always be *at least* one off (if it's in the top-most render)
+        #
         <<-EOF
         <div id="query_diet" class="#{QueryDiet::Logger.bad?(options) ? 'bad' : 'good' }" onclick="this.parentNode.removeChild(this);">
           #{QueryDiet::Logger.count} / #{QueryDiet::Logger.time}ms
