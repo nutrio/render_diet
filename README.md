@@ -1,6 +1,6 @@
-Work in Progress
+Render Diet
 ==========
 
-I'm attempting to convert this gem into tracking calls to "render" instead of queries.
-
-Will eventually rename to "Render Diet" once everything is working.
+I converted
+[the original gem](https://github.com/makandra/query_diet)
+to track view renders instead of queries.
