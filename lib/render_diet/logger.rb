@@ -1,15 +1,15 @@
-module QueryDiet
+module RenderDiet
   class Logger
     DEFAULT_OPTIONS = { :bad_count => 8, :bad_time => 5000 }
 
     class << self
-      attr_accessor :queries, :paused
+      attr_accessor :renders, :paused
 
       def reset
-        self.queries = []
+        self.renders = []
       end
 
-      def log(query)
+      def log(render)
         if paused?
           yield
         else
@@ -17,17 +17,17 @@ module QueryDiet
           time = Benchmark.realtime do
             result = yield
           end
-          queries << [query, time] if log_query?(query)
+          renders << [render, time] if log_render?(render)
           result
         end
       end
 
       def time
-        (queries.sum(&:last) * 1000).to_i
+        (renders.sum(&:last) * 1000).to_i
       end
 
       def count
-        queries.size
+        renders.size
       end
 
       def bad?(options = {})
@@ -41,8 +41,8 @@ module QueryDiet
 
       private
 
-      def log_query?(query)
-        #query =~ /^(select|create|update|delete|insert)\b/i
+      def log_render?(render)
+        #render =~ /^(select|create|update|delete|insert)\b/i
         true # FIXME: only if not cached?
       end
     end

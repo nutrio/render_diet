@@ -1,7 +1,7 @@
 PATH
   remote: ../..
   specs:
-    query_diet (0.6.1)
+    render_diet (0.6.1)
 
 GEM
   remote: http://rubygems.org/
@@ -150,11 +150,11 @@ PLATFORMS
 DEPENDENCIES
   capybara
   database_cleaner
-  query_diet!
   rails (~> 5.0.0.beta2)
+  render_diet!
   rspec (= 3.5.0.beta1)
   rspec-rails (= 3.5.0.beta1)
   sqlite3
 
 BUNDLED WITH
-   1.13.6
+   1.14.6

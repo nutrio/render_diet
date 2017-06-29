@@ -1,11 +1,11 @@
-module QueryDiet
+module RenderDiet
   module Widget
     class << self
 
       def css
         <<-EOF
         <style type="text/css"><!--
-          div#query_diet {
+          div#render_diet {
             position: absolute;
             top: 0;
             right: 0;
@@ -16,13 +16,13 @@ module QueryDiet
             font: normal bold 12px/12px Arial, sans-serif;
             cursor: pointer;
           }
-          div#query_diet.good {
+          div#render_diet.good {
             filter:alpha(opacity=30);
             -moz-opacity:0.3;
             -khtml-opacity: 0.3;
             opacity: 0.3;
           }
-          div#query_diet.bad {
+          div#render_diet.bad {
             background-color: red;
             font-size: 16px;
             line-height: 16px;
@@ -33,12 +33,12 @@ module QueryDiet
 
       def html(options)
         #
-        # since the query_diet_widget runs *inside* a view (generally "layout")
+        # since the render_diet_widget runs *inside* a view (generally "layout")
         # it will always be *at least* one off (if it's in the top-most render)
         #
         <<-EOF
-        <div id="query_diet" class="#{QueryDiet::Logger.bad?(options) ? 'bad' : 'good' }" onclick="this.parentNode.removeChild(this);">
-          #{QueryDiet::Logger.count} / #{QueryDiet::Logger.time}ms
+        <div id="render_diet" class="#{RenderDiet::Logger.bad?(options) ? 'bad' : 'good' }" onclick="this.parentNode.removeChild(this);">
+          #{RenderDiet::Logger.count} / #{RenderDiet::Logger.time}ms
         </div>
         EOF
       end
@@ -46,7 +46,7 @@ module QueryDiet
     end
 
     module Helper
-      def query_diet_widget(options = {})
+      def render_diet_widget(options = {})
         html = Widget.css + Widget.html(options)
         html.respond_to?(:html_safe) ? html.html_safe : html
       end
@@ -56,4 +56,4 @@ module QueryDiet
 
 end
 
-ActionView::Base.send :include, QueryDiet::Widget::Helper
+ActionView::Base.send :include, RenderDiet::Widget::Helper

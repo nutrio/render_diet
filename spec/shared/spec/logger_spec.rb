@@ -1,96 +1,96 @@
 require 'spec_helper'
 
-describe QueryDiet::Logger do
+describe RenderDiet::Logger do
 
   before do
-    QueryDiet::Logger.reset
+    RenderDiet::Logger.reset
   end
 
   describe "#reset" do
-    it "should reset count/time/queries" do
-      QueryDiet::Logger.count.should == 0
-      QueryDiet::Logger.time.should == 0
-      QueryDiet::Logger.queries.should == []
+    it "should reset count/time/renders" do
+      RenderDiet::Logger.count.should == 0
+      RenderDiet::Logger.time.should == 0
+      RenderDiet::Logger.renders.should == []
 
       Benchmark.should_receive(:realtime).at_least(:once).and_return(5)
       Movie.create
 
-      QueryDiet::Logger.count.should > 0
-      QueryDiet::Logger.time.should > 0
-      QueryDiet::Logger.queries.size.should > 0
+      RenderDiet::Logger.count.should > 0
+      RenderDiet::Logger.time.should > 0
+      RenderDiet::Logger.renders.size.should > 0
     end
   end
 
   describe "#count" do
-    it "should return the number of queries since the last reset" do
+    it "should return the number of renders since the last reset" do
       Movie.create
       Movie.create
-      QueryDiet::Logger.count.should == 2
+      RenderDiet::Logger.count.should == 2
     end
   end
 
   describe "#time" do
-    it "should return the number of miliseconds spent running database queries since the last reset" do
+    it "should return the number of miliseconds spent running database renders since the last reset" do
       Benchmark.should_receive(:realtime).at_least(:once).and_return(5)
       Movie.create
-      QueryDiet::Logger.time.should == 5000
+      RenderDiet::Logger.time.should == 5000
     end
   end
 
-  describe "#queries" do
-    it "should return the queries since last reset" do
+  describe "#renders" do
+    it "should return the renders since last reset" do
       Benchmark.should_receive(:realtime).at_least(:once).and_return(5.1234)
       Movie.create
-      QueryDiet::Logger.queries.size.should == 1
-      query = QueryDiet::Logger.queries.first
-      query.size.should == 2
-      #query[0].should include("INSERT INTO \"movies\"")
-      query[0].should include("nested")
-      query[1].should == 5.1234
+      RenderDiet::Logger.renders.size.should == 1
+      render = RenderDiet::Logger.renders.first
+      render.size.should == 2
+      #render[0].should include("INSERT INTO \"movies\"")
+      render[0].should include("nested")
+      render[1].should == 5.1234
     end
   end
 
   describe "#paused" do
 
     before do
-      QueryDiet::Logger.paused = false
+      RenderDiet::Logger.paused = false
     end
 
     after do
-      QueryDiet::Logger.paused = false
+      RenderDiet::Logger.paused = false
     end
 
     it "should be false by default" do
-      QueryDiet::Logger.paused.should == false
+      RenderDiet::Logger.paused.should == false
     end
 
-    it "should pause the query count" do
+    it "should pause the render count" do
       Movie.create
       Movie.create
-      QueryDiet::Logger.count.should == 2
+      RenderDiet::Logger.count.should == 2
 
-      QueryDiet::Logger.paused = true
+      RenderDiet::Logger.paused = true
       Movie.create
-      QueryDiet::Logger.count.should == 2
+      RenderDiet::Logger.count.should == 2
 
-      QueryDiet::Logger.paused = false
+      RenderDiet::Logger.paused = false
       Movie.create
-      QueryDiet::Logger.count.should == 3
+      RenderDiet::Logger.count.should == 3
     end
 
     # regression
-    it "should still execute queries if paused" do
+    it "should still execute renders if paused" do
       Movie.delete_all
-      QueryDiet::Logger.paused = true
+      RenderDiet::Logger.paused = true
       #Movie.count.should == 0
       #Movie.create
       #Movie.count.should == 1
-      rendered = QueryDietController.render :two_queries
+      rendered = RenderDietController.render :two_renders
       rendered.should include("nested")
     end
 
     it "should be false by default" do
-      QueryDiet::Logger.paused.should == false
+      RenderDiet::Logger.paused.should == false
     end
 
   end

@@ -1,0 +1,5 @@
+require 'render_diet/logger'
+require 'render_diet/widget'
+#require 'render_diet/active_record_ext'
+require 'render_diet/action_view_ext'
+require 'render_diet/rack/reset_logger'
