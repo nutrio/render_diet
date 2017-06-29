@@ -32,7 +32,8 @@ namespace :all do
 end
 
 def each_rails_version
-  Dir['spec/rails-*'].sort.each do |directory|
+  #Dir['spec/rails-*'].sort.each do |directory|
+  Dir['spec/rails-5*'].sort.each do |directory|
     if directory.include?('5.') && RUBY_VERSION < "2.2.0"
       puts "Skipping #{directory} since rails 5+ is not supported on #{RUBY_VERSION}"
     else

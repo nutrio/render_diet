@@ -44,7 +44,8 @@ describe QueryDiet::Logger do
       QueryDiet::Logger.queries.size.should == 1
       query = QueryDiet::Logger.queries.first
       query.size.should == 2
-      query[0].should include("INSERT INTO \"movies\"")
+      #query[0].should include("INSERT INTO \"movies\"")
+      query[0].should include("nested")
       query[1].should == 5.1234
     end
   end

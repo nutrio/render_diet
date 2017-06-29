@@ -42,7 +42,8 @@ module QueryDiet
       private
 
       def log_query?(query)
-        query =~ /^(select|create|update|delete|insert)\b/i
+        #query =~ /^(select|create|update|delete|insert)\b/i
+        true # FIXME: only if not cached?
       end
     end
 
